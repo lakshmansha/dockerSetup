@@ -1,0 +1,10 @@
+# Remove Keys
+keystore/*
+keystore/DockerFile
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

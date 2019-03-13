@@ -1,0 +1,60 @@
+FROM ubuntu:18.04
+
+RUN echo " Initiating"
+
+# Install package dependencies
+
+RUN echo " Installing Default Packages "
+
+RUN apt-get update && apt-get install -y unzip openjdk-8-jdk imagemagick
+
+RUN apt-get update && apt-get install -y wget curl git
+
+RUN echo " Default Packages Installation Completed "
+
+RUN echo " Initiating Android SDK Setup "
+
+# Android SDK variables
+
+ENV ANDROID_SDK_URL https://dl.google.com/android/repository/tools_r25.2.5-linux.zip
+ENV ANDROID_SDK_PATH /android
+ENV ANDROID_SDK_FILTER platform-tool,android-23,android-26,build-tools-27.0.3
+
+#Display the Environment Variable
+RUN printenv
+
+# Download and extract the Android SDK
+
+RUN echo "Downloading Android SDK"
+
+RUN mkdir -p $ANDROID_SDK_PATH
+
+WORKDIR $ANDROID_SDK_PATH
+
+RUN wget $ANDROID_SDK_URL -O android-sdk.zip
+RUN unzip android-sdk.zip -d android-sdk-linux
+RUN rm -fr android-sdk.zip
+
+RUN echo " Download & Unzip Completed "
+RUN echo "Installing SDK"
+
+# Install the Android SDK
+
+WORKDIR $ANDROID_SDK_PATH/android-sdk-linux
+
+RUN echo "y" | tools/android update sdk --no-ui --all --filter $ANDROID_SDK_FILTER
+
+# Update Android SDK environment variables
+
+ENV ANDROID_HOME $ANDROID_SDK_PATH/android-sdk-linux
+ENV PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+RUN echo " Installation SDK Completed "
+
+RUN echo " Android SDK Setup Completed "
+
+#Display the Environment Variable
+RUN printenv
+
+# Check Java Version
+RUN java -version

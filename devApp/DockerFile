@@ -1,0 +1,43 @@
+#  Create a new image from the android-setup:v1 for android build image.
+FROM ubuntu:18.04
+
+RUN echo " Initiating"
+
+# Install package dependencies
+
+RUN echo " Installing Default Packages "
+
+RUN apt-get update && apt-get install -y unzip
+
+RUN apt-get update && apt-get install -y wget curl git
+
+RUN echo " Default Packages Installation Completed "
+
+RUN echo " Installing Node & Npm "
+
+#Install Node.
+RUN curl https://nodejs.org/dist/v10.15.0/node-v10.15.0-linux-x64.tar.gz | tar xz -C /usr/local/ --strip=1
+
+# Update npm package.
+RUN npm install npm@latest -g
+
+RUN echo " Node & NPM Installation Completed "
+
+RUN echo " Installing Dev Dependencies "
+
+# Install Angular-cli package.
+RUN npm install @angular/cli@latest -g
+
+# Install Ngx-Scripts package.
+RUN npm install @ngx-rocket/scripts -g
+
+# Install Ngx-Scripts package.
+RUN npm install gulp -g
+
+# Install Ngx-Scripts package.
+RUN npm install bower -g
+
+# Install cordova package.
+RUN npm install cordova -g
+
+RUN echo " Dev Dependencies Installation Completed "
